@@ -1,0 +1,100 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>신용카드 사기 탐지 데이터 탐색 대시보드</title>
+<link rel="preconnect" href="https://cdn.jsdelivr.net">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.css">
+<link rel="stylesheet" href="assets/fraud-dashboard.css">
+</head>
+<body>
+
+<header class="page-header">
+  <h1>신용카드 사기 탐지 데이터 탐색</h1>
+  <p class="subtitle" id="subtitle">데이터 불러오는 중…</p>
+  <div class="note-banner">
+    <b>V1~V28</b>은 실제 카드·개인 정보를 숨기기 위해 수학적으로 변환(PCA)한 값이라 그 자체로는 의미를 알 수 없습니다.
+    이 대시보드는 <b>거래 건수, 금액, 발생 시간</b>처럼 사람이 바로 이해할 수 있는 정보 위주로 정상 거래와 사기 거래를 비교합니다.
+  </div>
+</header>
+
+<main class="container">
+
+  <section>
+    <div class="kpi-grid" id="kpiGrid">
+      <div class="card"><div style="height:70px"></div></div>
+      <div class="card"><div style="height:70px"></div></div>
+      <div class="card"><div style="height:70px"></div></div>
+      <div class="card"><div style="height:70px"></div></div>
+    </div>
+  </section>
+
+  <section>
+    <h2 class="section-title">정상 거래 vs 사기 거래 — 얼마나 드문 일인가</h2>
+    <p class="section-desc">사기는 전체의 0.17% 수준으로 매우 드물어서, 실제 건수 그대로 막대를 그리면 사기 막대가 눈에 보이지도 않습니다. 그래서 세로축을 로그 스케일로 그려 두 막대를 함께 비교할 수 있게 했습니다.</p>
+    <div class="card chart-card">
+      <canvas id="volumeChart" height="140"></canvas>
+    </div>
+  </section>
+
+  <section>
+    <h2 class="section-title">거래 금액 · 발생 시간 패턴</h2>
+    <div class="chart-grid">
+      <div class="card chart-card">
+        <p class="chart-title">거래 금액대별 비중</p>
+        <p class="chart-caption">각 그룹(정상/사기) 안에서 몇 %를 차지하는지 비교 (건수 차이 영향 제거)</p>
+        <canvas id="amountChart" height="220"></canvas>
+        <div class="legend-row">
+          <span><span class="dot" style="background:var(--normal)"></span>정상 거래</span>
+          <span><span class="dot" style="background:var(--fraud)"></span>사기 거래</span>
+        </div>
+      </div>
+      <div class="card chart-card">
+        <p class="chart-title">시간대별 발생 비율</p>
+        <p class="chart-caption">하루 24시간 중 언제 몰리는지 (각 그룹 내 비율 %)</p>
+        <canvas id="hourChart" height="220"></canvas>
+        <div class="legend-row">
+          <span><span class="dot" style="background:var(--normal)"></span>정상 거래</span>
+          <span><span class="dot" style="background:var(--fraud)"></span>사기 거래</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2 class="section-title">두 값만으로도 갈라지는 모습</h2>
+    <p class="section-desc">
+      V14, V17은 익명화된 값이지만, 이 데이터셋에서 사기 거래를 가장 잘 구별해내는 두 값으로 알려져 있습니다.
+      아래 점 하나가 거래 한 건이며, 정상 거래는 1,500건을 무작위로 뽑아 표시하고 사기 거래는 492건 전부 표시했습니다.
+      사기(빨간 점)가 정상(파란 점)과 다른 위치에 몰려 있는 걸 볼 수 있습니다.
+    </p>
+    <div class="card chart-card">
+      <canvas id="scatterChart" height="320"></canvas>
+    </div>
+  </section>
+
+  <section>
+    <h2 class="section-title">금액이 가장 큰 사기 거래 상위 20건</h2>
+    <p class="section-desc">거래 시작 시점을 기준으로 몇 시간째 발생했는지와 거래 금액입니다.</p>
+    <div class="table-wrap">
+      <table class="fraud-table">
+        <thead>
+          <tr><th>#</th><th>경과 시간</th><th class="num">거래 금액</th></tr>
+        </thead>
+        <tbody id="topFraudBody"></tbody>
+      </table>
+    </div>
+  </section>
+
+</main>
+
+<footer class="page-footer">
+  데이터 출처: Kaggle Credit Card Fraud Detection (2013년 유럽 카드 거래, 284,807건 중 사기 492건) ·
+  <a href="index.html">← 포트폴리오로 돌아가기</a>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4"></script>
+<script src="assets/fraud-dashboard.js"></script>
+</body>
+</html>

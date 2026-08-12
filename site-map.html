@@ -1,0 +1,406 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>이 웹사이트는 이렇게 만들어졌어요</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@500;700&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://cdn.jsdelivr.net">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.css">
+<style>
+  :root {
+    --paper: #fffdfa;
+    --paper-raised: #ffffff;
+    --ink: #23201c;
+    --muted: #948d83;
+    --muted-2: #c9c2b7;
+    --hairline: #e6e0d6;
+    --accent: #d97757;
+    --accent-soft: #fbe9e1;
+    --link: #3f6fb0;
+    --link-soft: #e7eff8;
+
+    --font-serif: "Noto Serif KR", "Georgia", serif;
+    --font-sans: "Pretendard Variable", "Pretendard", -apple-system, BlinkMacSystemFont,
+      "Segoe UI", "Malgun Gothic", sans-serif;
+    --font-mono: "SFMono-Regular", ui-monospace, "JetBrains Mono", Consolas, monospace;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --paper: #17140f;
+      --paper-raised: #201c16;
+      --ink: #f1ece3;
+      --muted: #9b9284;
+      --muted-2: #48413a;
+      --hairline: #35302a;
+      --accent: #e2916d;
+      --accent-soft: #332420;
+      --link: #7fa6dd;
+      --link-soft: #202a38;
+    }
+  }
+  :root[data-theme="dark"] {
+    --paper: #17140f;
+    --paper-raised: #201c16;
+    --ink: #f1ece3;
+    --muted: #9b9284;
+    --muted-2: #48413a;
+    --hairline: #35302a;
+    --accent: #e2916d;
+    --accent-soft: #332420;
+    --link: #7fa6dd;
+    --link-soft: #202a38;
+  }
+
+  * { box-sizing: border-box; }
+
+  body {
+    margin: 0;
+    background: var(--paper);
+    color: var(--ink);
+    font-family: var(--font-sans);
+    line-height: 1.65;
+  }
+
+  .wrap {
+    max-width: 1040px;
+    margin: 0 auto;
+    padding: 64px 24px 100px;
+  }
+
+  .eyebrow {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin: 0 0 14px;
+  }
+  .eyebrow b { color: var(--accent); font-weight: 600; }
+
+  h1 {
+    font-family: var(--font-serif);
+    font-weight: 700;
+    font-size: 36px;
+    line-height: 1.35;
+    text-wrap: balance;
+    margin: 0 0 16px;
+    letter-spacing: -0.01em;
+  }
+
+  .lede {
+    font-size: 15.5px;
+    color: var(--muted);
+    max-width: 62ch;
+    margin: 0 0 8px;
+  }
+  .lede strong { color: var(--ink); font-weight: 600; }
+
+  .for-humans {
+    display: inline-block;
+    margin: 18px 0 48px;
+    padding: 10px 16px;
+    background: var(--accent-soft);
+    border-radius: 8px;
+    font-size: 13.5px;
+    color: var(--ink);
+  }
+  .for-humans b { color: var(--accent); }
+
+  h2.section-title {
+    font-family: var(--font-serif);
+    font-size: 21px;
+    font-weight: 700;
+    margin: 0 0 6px;
+  }
+  .section-desc {
+    font-size: 14px;
+    color: var(--muted);
+    margin: 0 0 22px;
+    max-width: 62ch;
+  }
+
+  section { margin-bottom: 60px; }
+  section:last-of-type { margin-bottom: 0; }
+
+  .diagram-card {
+    background: var(--paper-raised);
+    border: 1px solid var(--hairline);
+    border-radius: 12px;
+    padding: 28px 24px 20px;
+    overflow-x: auto;
+  }
+
+  figure { margin: 0; }
+  figcaption {
+    margin-top: 18px;
+    padding-top: 16px;
+    border-top: 1px solid var(--hairline);
+    font-size: 12.5px;
+    color: var(--muted);
+    text-align: center;
+  }
+
+  svg { display: block; margin: 0 auto; width: 100%; height: auto; }
+  svg text { font-family: var(--font-sans); }
+  svg .mono { font-family: var(--font-mono); }
+  svg .serif { font-family: var(--font-serif); }
+
+  /* ---- legend row (HTML, below diagram) ---- */
+  .legend {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 28px;
+    margin-top: 18px;
+    padding-top: 16px;
+    border-top: 1px solid var(--hairline);
+    font-size: 12.5px;
+  }
+  .legend .group { display: flex; flex-direction: column; gap: 6px; }
+  .legend .group-title {
+    font-size: 10.5px;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+  .legend .items { display: flex; flex-wrap: wrap; gap: 10px 16px; }
+  .legend .item { display: flex; align-items: center; gap: 6px; color: var(--ink); white-space: nowrap; }
+  .swatch-line { width: 18px; height: 2px; border-radius: 2px; flex: none; }
+  .swatch-dot { width: 8px; height: 8px; border-radius: 50%; flex: none; }
+
+  /* ---- file tree ---- */
+  .tree {
+    background: var(--paper-raised);
+    border: 1px solid var(--hairline);
+    border-radius: 12px;
+    padding: 22px 26px;
+    font-family: var(--font-mono);
+    font-size: 12.5px;
+    line-height: 2;
+    overflow-x: auto;
+    white-space: pre;
+    color: var(--ink);
+  }
+  .tree .dim { color: var(--muted-2); }
+  .tree .role { color: var(--muted); font-family: var(--font-sans); }
+
+  footer {
+    margin-top: 64px;
+    padding-top: 20px;
+    border-top: 1px solid var(--hairline);
+    font-size: 12px;
+    color: var(--muted);
+  }
+  footer a { color: var(--link); text-decoration: none; }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <p class="eyebrow">SITE STRUCTURE · <b>초보자용 설명</b></p>
+  <h1>이 웹사이트는 이렇게 만들어졌어요</h1>
+  <p class="lede">
+    개발 용어를 몰라도 괜찮아요. 이 페이지는 <strong>부동산 자료가 어떻게 화면의 그래프·표로 바뀌는지</strong>를
+    사람이 하는 일에 비유해서 5단계로 보여줍니다.
+  </p>
+  <p class="for-humans">
+    한 문장 요약: <b>정부 자료를 미리 계산해서 파일로 저장해두고</b>, 방문자가 사이트에 들어오면
+    <b>그 파일을 불러와 그래프·지도·표로 그려서</b> 보여줘요.
+  </p>
+
+  <section>
+    <h2 class="section-title">전체 흐름 — 자료가 화면이 되기까지</h2>
+    <p class="section-desc">
+      가로는 "몇 번째 단계인지", 세로는 "누가 그 일을 하는지"를 뜻해요. 화살표를 따라가면
+      원본 자료 하나가 방문자 눈앞의 그래프가 되기까지의 전체 여정을 볼 수 있어요.
+    </p>
+
+    <div class="diagram-card">
+      <figure>
+        <svg viewBox="0 0 1180 610" role="img" aria-label="원본 부동산 자료를 컴퓨터가 미리 계산해 파일로 저장하고, 웹사이트 코드가 그 파일을 불러와 화면을 그리면, 방문자가 눌러보며 확인하는 5단계 흐름">
+          <defs>
+            <pattern id="dots" width="14" height="14" patternUnits="userSpaceOnUse">
+              <circle cx="1.4" cy="1.4" r="1.1" fill="var(--muted-2)"></circle>
+            </pattern>
+            <marker id="arrowGray" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6.5" markerHeight="6.5" orient="auto-start-reverse">
+              <path d="M0,0 L10,5 L0,10 z" fill="var(--muted-2)"></path>
+            </marker>
+            <marker id="arrowAccent" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6.5" markerHeight="6.5" orient="auto-start-reverse">
+              <path d="M0,0 L10,5 L0,10 z" fill="var(--accent)"></path>
+            </marker>
+            <marker id="arrowLink" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6.5" markerHeight="6.5" orient="auto-start-reverse">
+              <path d="M0,0 L10,5 L0,10 z" fill="var(--link)"></path>
+            </marker>
+          </defs>
+
+          <!-- lane backgrounds (subtle dot texture) -->
+          <rect x="130" y="66" width="1030" height="150" fill="url(#dots)" opacity="0.5"></rect>
+          <rect x="130" y="216" width="1030" height="150" fill="url(#dots)" opacity="0.5"></rect>
+          <rect x="130" y="366" width="1030" height="150" fill="url(#dots)" opacity="0.5"></rect>
+
+          <!-- lane divider hairlines -->
+          <line x1="0" y1="216" x2="1160" y2="216" stroke="var(--hairline)" stroke-width="1"></line>
+          <line x1="0" y1="366" x2="1160" y2="366" stroke="var(--hairline)" stroke-width="1"></line>
+          <line x1="0" y1="516" x2="1160" y2="516" stroke="var(--hairline)" stroke-width="1"></line>
+
+          <!-- lane labels -->
+          <text x="20" y="145" class="mono" font-size="11" letter-spacing="0.08em" fill="var(--muted)">자료 담당</text>
+          <text x="20" y="163" font-size="10.5" fill="var(--muted-2)">(파이썬 스크립트)</text>
+
+          <text x="20" y="295" class="mono" font-size="11" letter-spacing="0.08em" fill="var(--muted)">사이트 담당</text>
+          <text x="20" y="313" font-size="10.5" fill="var(--muted-2)">(웹페이지 코드)</text>
+
+          <text x="20" y="445" class="mono" font-size="11" letter-spacing="0.08em" fill="var(--muted)">방문자</text>
+          <text x="20" y="463" font-size="10.5" fill="var(--muted-2)">(사람)</text>
+
+          <!-- step header row -->
+          <g>
+            <circle cx="235" cy="30" r="11" fill="none" stroke="var(--muted-2)"></circle>
+            <text x="235" y="34" text-anchor="middle" font-size="10.5" fill="var(--muted)">01</text>
+            <text x="235" y="55" text-anchor="middle" font-size="12" font-weight="600" fill="var(--ink)">자료 모으기</text>
+          </g>
+          <g>
+            <circle cx="445" cy="30" r="11" fill="none" stroke="var(--muted-2)"></circle>
+            <text x="445" y="34" text-anchor="middle" font-size="10.5" fill="var(--muted)">02</text>
+            <text x="445" y="55" text-anchor="middle" font-size="12" font-weight="600" fill="var(--ink)">미리 계산하기</text>
+          </g>
+          <g>
+            <circle cx="655" cy="30" r="11" fill="var(--accent-soft)" stroke="var(--accent)"></circle>
+            <text x="655" y="34" text-anchor="middle" font-size="10.5" fill="var(--accent)" font-weight="700">03</text>
+            <text x="655" y="55" text-anchor="middle" font-size="12" font-weight="700" fill="var(--accent)">화면 부품 준비</text>
+          </g>
+          <g>
+            <circle cx="865" cy="30" r="11" fill="none" stroke="var(--muted-2)"></circle>
+            <text x="865" y="34" text-anchor="middle" font-size="10.5" fill="var(--muted)">04</text>
+            <text x="865" y="55" text-anchor="middle" font-size="12" font-weight="600" fill="var(--ink)">화면에 그리기</text>
+          </g>
+          <g>
+            <circle cx="1075" cy="30" r="11" fill="none" stroke="var(--link)"></circle>
+            <text x="1075" y="34" text-anchor="middle" font-size="10.5" fill="var(--link)">05</text>
+            <text x="1075" y="55" text-anchor="middle" font-size="12" font-weight="600" fill="var(--link)">살펴보기</text>
+          </g>
+
+          <!-- ===== Card 1 : 자료 모으기 ===== -->
+          <g>
+            <rect x="140" y="97" width="190" height="98" rx="9" fill="var(--paper-raised)" stroke="var(--hairline)" stroke-width="1.3"></rect>
+            <rect x="150" y="107" width="34" height="16" rx="4" fill="var(--paper)" stroke="var(--muted-2)" stroke-width="1"></rect>
+            <text x="167" y="118.5" text-anchor="middle" font-size="9" fill="var(--muted)">자료</text>
+            <text x="160" y="146" font-size="13" font-weight="700" fill="var(--ink)">실거래 자료 모으기</text>
+            <text x="160" y="164" font-size="11" fill="var(--muted)">국토부에서 받은 원본 목록</text>
+            <text x="160" y="184" class="mono" font-size="9.5" fill="var(--muted-2)">seoul-apt-latest.csv</text>
+          </g>
+
+          <!-- ===== Card 2 : 미리 계산하기 ===== -->
+          <g>
+            <rect x="350" y="97" width="190" height="98" rx="9" fill="var(--paper-raised)" stroke="var(--hairline)" stroke-width="1.3"></rect>
+            <rect x="360" y="107" width="34" height="16" rx="4" fill="var(--paper)" stroke="var(--muted-2)" stroke-width="1"></rect>
+            <text x="377" y="118.5" text-anchor="middle" font-size="9" fill="var(--muted)">자료</text>
+            <text x="370" y="146" font-size="13" font-weight="700" fill="var(--ink)">숫자 미리 정리하기</text>
+            <text x="370" y="164" font-size="11" fill="var(--muted)">동네별 평균 가격을 계산</text>
+            <text x="370" y="184" class="mono" font-size="9.5" fill="var(--muted-2)">build_data.py</text>
+          </g>
+
+          <!-- ===== Card 3 : 화면 부품 준비 (focal) ===== -->
+          <g>
+            <rect x="560" y="247" width="190" height="98" rx="9" fill="var(--accent-soft)" stroke="var(--accent)" stroke-width="1.5"></rect>
+            <rect x="570" y="257" width="42" height="16" rx="4" fill="var(--paper-raised)" stroke="var(--accent)" stroke-width="1"></rect>
+            <text x="591" y="268.5" text-anchor="middle" font-size="9" fill="var(--accent)" font-weight="600">사이트</text>
+            <text x="570" y="296" font-size="13" font-weight="700" fill="var(--ink)">화면 부품 준비</text>
+            <text x="570" y="314" font-size="11" fill="var(--ink)" opacity="0.75">그래프·표를 그리는 코드</text>
+            <text x="570" y="334" class="mono" font-size="9.5" fill="var(--ink)" opacity="0.6">dashboard.html / .js</text>
+          </g>
+
+          <!-- ===== Card 4 : 화면에 그리기 ===== -->
+          <g>
+            <rect x="770" y="247" width="190" height="98" rx="9" fill="var(--paper-raised)" stroke="var(--hairline)" stroke-width="1.3"></rect>
+            <rect x="780" y="257" width="42" height="16" rx="4" fill="var(--paper)" stroke="var(--muted-2)" stroke-width="1"></rect>
+            <text x="801" y="268.5" text-anchor="middle" font-size="9" fill="var(--muted)">사이트</text>
+            <text x="780" y="296" font-size="13" font-weight="700" fill="var(--ink)">숫자를 화면에 그리기</text>
+            <text x="780" y="314" font-size="11" fill="var(--muted)">그래프·지도·표로 표시</text>
+            <text x="780" y="334" class="mono" font-size="9.5" fill="var(--muted-2)">브라우저가 실행</text>
+          </g>
+
+          <!-- ===== Card 5 : 살펴보기 (사람) ===== -->
+          <g>
+            <rect x="980" y="397" width="190" height="98" rx="9" fill="var(--link-soft)" stroke="var(--link)" stroke-width="1.5"></rect>
+            <rect x="990" y="407" width="34" height="16" rx="4" fill="var(--paper-raised)" stroke="var(--link)" stroke-width="1"></rect>
+            <text x="1007" y="418.5" text-anchor="middle" font-size="9" fill="var(--link)" font-weight="600">사람</text>
+            <text x="990" y="446" font-size="13" font-weight="700" fill="var(--ink)">동네 눌러보며 확인</text>
+            <text x="990" y="464" font-size="11" fill="var(--ink)" opacity="0.75">구 선택 · 검색 · 정렬해보기</text>
+            <text x="990" y="484" class="mono" font-size="9.5" fill="var(--ink)" opacity="0.6">클릭하면 바로 바뀜</text>
+          </g>
+
+          <!-- ===== arrows ===== -->
+          <!-- 1 -> 2 : 일반 전달 -->
+          <line x1="330" y1="146" x2="348" y2="146" stroke="var(--muted-2)" stroke-width="1.6" marker-end="url(#arrowGray)"></line>
+
+          <!-- 2 -> 3 : 핵심 전달 (강조) -->
+          <path d="M445,195 C445,225 655,225 655,245" fill="none" stroke="var(--accent)" stroke-width="2" marker-end="url(#arrowAccent)"></path>
+          <text x="490" y="222" font-size="10" fill="var(--accent)" font-weight="600">미리 계산해둔 값을 그대로 사용</text>
+
+          <!-- 3 -> 4 : 일반 전달 -->
+          <line x1="750" y1="296" x2="768" y2="296" stroke="var(--muted-2)" stroke-width="1.6" marker-end="url(#arrowGray)"></line>
+
+          <!-- 4 -> 5 : 사람에게 전달 -->
+          <path d="M865,345 C865,375 1075,375 1075,395" fill="none" stroke="var(--link)" stroke-width="2" marker-end="url(#arrowLink)"></path>
+          <text x="905" y="372" font-size="10" fill="var(--link)" font-weight="600">완성된 화면을 사람에게 보여줌</text>
+        </svg>
+
+        <div class="legend">
+          <div class="group">
+            <span class="group-title">단계</span>
+            <div class="items">
+              <span class="item"><span class="swatch-dot" style="background:var(--muted-2)"></span>01 자료 모으기</span>
+              <span class="item"><span class="swatch-dot" style="background:var(--muted-2)"></span>02 미리 계산하기</span>
+              <span class="item"><span class="swatch-dot" style="background:var(--accent)"></span>03 화면 부품 준비</span>
+              <span class="item"><span class="swatch-dot" style="background:var(--muted-2)"></span>04 화면에 그리기</span>
+              <span class="item"><span class="swatch-dot" style="background:var(--link)"></span>05 살펴보기</span>
+            </div>
+          </div>
+          <div class="group">
+            <span class="group-title">화살표 의미</span>
+            <div class="items">
+              <span class="item"><span class="swatch-line" style="background:var(--muted-2)"></span>다음 단계로 전달</span>
+              <span class="item"><span class="swatch-line" style="background:var(--accent)"></span>핵심 전달 (미리 준비 → 사용)</span>
+              <span class="item"><span class="swatch-line" style="background:var(--link)"></span>최종적으로 사람에게 전달</span>
+            </div>
+          </div>
+        </div>
+
+        <figcaption>
+          왼쪽 "자료 담당" 두 칸은 컴퓨터가 사람 손 없이 자동으로 미리 해두는 일이고,
+          가운데 "사이트 담당" 두 칸은 그 결과를 화면으로 바꾸는 일, 오른쪽 "방문자"는 실제로 웹사이트에 들어온 사람이 하는 일이에요.
+        </figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <section>
+    <h2 class="section-title">이 페이지들이 있어요</h2>
+    <p class="section-desc">방문자가 실제로 열어볼 수 있는 화면은 3개예요. 나머지는 화면을 만들기 위한 준비 파일이에요.</p>
+    <div class="tree">sesac-web/
+├── index.html            <span class="dim">─</span> <span class="role">첫 화면. 자기소개 + 대시보드로 가는 링크</span>
+├── dashboard.html         <span class="dim">─</span> <span class="role">강남·서초·송파 아파트 시세를 눌러보는 화면</span>
+├── montage.html           <span class="dim">─</span> <span class="role">디자인 스타일을 보여주는 견본 화면</span>
+├── seoul-apt-latest.csv   <span class="dim">─</span> <span class="role">원본 자료 (화면에는 직접 쓰이지 않음)</span>
+├── assets/
+│   ├── dashboard.css      <span class="dim">─</span> <span class="role">화면 색깔·간격 등 꾸미기 담당</span>
+│   └── dashboard.js       <span class="dim">─</span> <span class="role">클릭하면 반응하는 동작 담당</span>
+├── data/
+│   ├── summary.json       <span class="dim">─</span> <span class="role">미리 계산해둔 요약 숫자</span>
+│   └── deals.json         <span class="dim">─</span> <span class="role">거래 내역 전체 목록</span>
+└── scripts/build_data.py  <span class="dim">─</span> <span class="role">원본 자료 → 요약 숫자로 바꿔주는 도구</span></div>
+  </section>
+
+  <footer>
+    다이어그램 스타일 참고: <a href="https://github.com/cathrynlavery/diagram-design" target="_blank" rel="noopener">cathrynlavery/diagram-design</a>
+    (스윔레인 · 번호 단계 · 절제된 색상 구성을 이 사이트 실제 구조에 맞게 다시 그렸습니다)
+  </footer>
+
+</div>
+</body>
+</html>
