@@ -29,6 +29,8 @@ def main():
 
     amount_hist = {0: [0] * len(AMOUNT_LABELS), 1: [0] * len(AMOUNT_LABELS)}
     hourly = {0: [0] * 24, 1: [0] * 24}
+    hourly_total = [0] * 24
+    daily = {0: [0, 0], 1: [0, 0]}  # [day1_count, day2_count] per class
 
     normal_pool = []  # reservoir sample for scatter
     fraud_rows = []
@@ -42,10 +44,14 @@ def main():
             amount = float(row["Amount"])
             time_sec = float(row["Time"])
             hour = int((time_sec % 86400) // 3600)
+            day = int(time_sec // 86400)  # 0 = 1일차, 1 = 2일차
 
             total_amount += amount
             amount_hist[cls][amount_bin_index(amount)] += 1
             hourly[cls][hour] += 1
+            hourly_total[hour] += 1
+            if day <= 1:
+                daily[cls][day] += 1
 
             if cls == 1:
                 fraud_count += 1
@@ -82,6 +88,16 @@ def main():
 
     top_fraud = sorted(fraud_rows, key=lambda r: r["amount"], reverse=True)[:20]
 
+    # 시간대별 "이 시간에 발생한 거래가 사기일 확률" (희귀도 보정된 실질적 위험도)
+    fraud_rate_by_hour = [
+        round(hourly[1][h] / hourly_total[h] * 100, 4) if hourly_total[h] else 0
+        for h in range(24)
+    ]
+    peak_hour = max(range(24), key=lambda h: fraud_rate_by_hour[h])
+    safest_hour = min(range(24), key=lambda h: fraud_rate_by_hour[h])
+
+    day_labels = ["1일차 (0~24시간)", "2일차 (24~48시간)"]
+
     summary = {
         "meta": {
             "total": total,
@@ -103,6 +119,17 @@ def main():
             "hours": list(range(24)),
             "normal_pct": normalize(hourly[0], normal_count),
             "fraud_pct": normalize(hourly[1], fraud_count),
+            "fraud_rate_by_hour": fraud_rate_by_hour,
+            "peak_hour": peak_hour,
+            "safest_hour": safest_hour,
+        },
+        "daily_dist": {
+            "labels": day_labels,
+            "normal_count": daily[0],
+            "fraud_count": daily[1],
+            "fraud_rate": [
+                round(daily[1][d] / (daily[0][d] + daily[1][d]) * 100, 4) for d in range(2)
+            ],
         },
         "scatter": {
             "normal_sample": normal_pool,
