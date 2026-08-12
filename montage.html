@@ -1,0 +1,317 @@
+<!--
+  Montage(wanteddev/montage-web, https://montage.wanted.co.kr) 디자인 시스템의
+  실제 컬러/타이포그래피 토큰을 CSS 변수로 재현한 정적 HTML 페이지입니다.
+  (@wanteddev/wds는 React 전용 npm 패키지라 순수 HTML 프로젝트에는 직접 설치할 수 없어,
+   문서 사이트에서 추출한 semantic color / typography 값을 그대로 사용했습니다.)
+-->
+<link rel="preconnect" href="https://cdn.jsdelivr.net">
+<link rel="stylesheet" as="style" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.css">
+<style>
+  :root {
+    /* Montage semantic tokens (dark, from montage.wanted.co.kr) */
+    --primary-normal: #3385ff;
+    --primary-strong: #1a75ff;
+    --primary-heavy: #0066ff;
+
+    --label-strong: #ffffff;
+    --label-normal: #f7f7f8;
+    --label-neutral: #c2c4c8e0;
+    --label-alternative: #aeb0b69c;
+    --label-assistive: #aeb0b647;
+
+    --bg-normal: #1b1c1e;
+    --bg-normal-alt: #0f0f10;
+    --bg-elevated: #212225;
+    --bg-elevated-alt: #141415;
+
+    --line-solid-normal: #37383c;
+    --line-solid-neutral: #333438;
+    --line-normal: #70737c47;
+
+    --fill-normal: #70737c38;
+    --fill-alternative: #70737c1f;
+
+    --status-positive: #1ed45a;
+    --status-cautionary: #ffa938;
+    --status-negative: #ff6363;
+
+    --accent-blue: #4f95ff;
+    --accent-violet: #9e86fc;
+    --accent-pink: #fa73e3;
+
+    --shadow-md: 0px 4px 6px -2px #17171712, 0px 10px 15px -3px #17171712;
+    --shadow-lg: 0px 6px 10px -4px #17171714, 0px 16px 24px -6px #17171714;
+
+    --font-wanted-sans: "Pretendard Variable", "Pretendard", -apple-system, BlinkMacSystemFont,
+      system-ui, "Segoe UI", "Apple SD Gothic Neo", "Noto Sans KR", "Malgun Gothic", sans-serif;
+  }
+
+  * { box-sizing: border-box; }
+
+  body {
+    margin: 0;
+    padding: 56px 20px 80px;
+    font-family: var(--font-wanted-sans);
+    background: var(--bg-normal);
+    color: var(--label-normal);
+  }
+
+  .container {
+    max-width: 720px;
+    margin: 0 auto;
+  }
+
+  .eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 4px 10px;
+    border-radius: 999px;
+    background: var(--fill-alternative);
+    border: 1px solid var(--line-solid-neutral);
+    color: var(--accent-blue);
+    font-size: 13px;
+    line-height: 18px;
+    letter-spacing: 0.0194em;
+    font-weight: 600;
+    margin-bottom: 16px;
+  }
+  .eyebrow::before {
+    content: "";
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--status-positive);
+  }
+
+  /* Typography scale — Montage: Display 2 */
+  h1 {
+    font-size: 40px;
+    line-height: 52px;
+    letter-spacing: -0.0282em;
+    font-weight: 700;
+    color: var(--label-strong);
+    margin: 0 0 12px;
+  }
+
+  .lede {
+    /* Body 1 / Reading */
+    font-size: 16px;
+    line-height: 26px;
+    letter-spacing: 0.0057em;
+    color: var(--label-neutral);
+    margin: 0 0 40px;
+  }
+
+  /* Title 2 */
+  h2 {
+    font-size: 28px;
+    line-height: 38px;
+    letter-spacing: -0.0236em;
+    font-weight: 700;
+    color: var(--label-strong);
+    margin: 56px 0 6px;
+  }
+
+  .section-desc {
+    /* Body 2 / Normal */
+    font-size: 15px;
+    line-height: 22px;
+    letter-spacing: 0.0096em;
+    color: var(--label-alternative);
+    margin: 0 0 24px;
+  }
+
+  .card {
+    background: var(--bg-elevated);
+    border: 1px solid var(--line-solid-normal);
+    border-radius: 16px;
+    box-shadow: var(--shadow-md);
+    padding: 28px;
+    line-height: 1.9;
+  }
+  .card p {
+    /* Body 1 / Normal */
+    font-size: 16px;
+    letter-spacing: 0.0057em;
+    color: var(--label-normal);
+    margin: 0 0 10px;
+  }
+  .card p:last-child { margin-bottom: 0; }
+
+  .stat-row {
+    display: flex;
+    gap: 12px;
+    margin-top: 40px;
+  }
+  .stat {
+    flex: 1;
+    background: var(--bg-elevated);
+    border: 1px solid var(--line-solid-normal);
+    border-radius: 16px;
+    box-shadow: var(--shadow-md);
+    padding: 20px;
+  }
+  .stat-label {
+    /* Label 2 */
+    font-size: 13px;
+    line-height: 18px;
+    letter-spacing: 0.0194em;
+    color: var(--label-alternative);
+    margin-bottom: 8px;
+  }
+  .stat-value {
+    /* Heading 1 */
+    font-size: 22px;
+    line-height: 30px;
+    letter-spacing: -0.0194em;
+    font-weight: 700;
+    color: var(--label-strong);
+  }
+  .stat-value.accent { color: var(--accent-blue); }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 40px;
+    background: var(--bg-elevated);
+    border: 1px solid var(--line-solid-normal);
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: var(--shadow-lg);
+  }
+  th, td {
+    padding: 14px 20px;
+    text-align: left;
+    border-bottom: 1px solid var(--line-normal);
+  }
+  th {
+    /* Label 1 / Normal */
+    font-size: 14px;
+    line-height: 20px;
+    letter-spacing: 0.0145em;
+    font-weight: 600;
+    color: var(--label-alternative);
+    background: var(--bg-elevated-alt);
+  }
+  td {
+    /* Body 2 / Normal */
+    font-size: 15px;
+    letter-spacing: 0.0096em;
+    color: var(--label-normal);
+  }
+  tr:last-child td { border-bottom: none; }
+  tbody tr:hover td { background: var(--fill-alternative); }
+
+  .rank {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 22px;
+    height: 22px;
+    border-radius: 6px;
+    background: var(--fill-normal);
+    color: var(--label-strong);
+    font-size: 12px;
+    font-weight: 700;
+    margin-right: 10px;
+  }
+  tr:first-child .rank {
+    background: var(--primary-normal);
+    color: #fff;
+  }
+
+  footer {
+    margin-top: 56px;
+    padding-top: 20px;
+    border-top: 1px solid var(--line-solid-neutral);
+    font-size: 12px;
+    line-height: 16px;
+    letter-spacing: 0.0252em;
+    color: var(--label-assistive);
+  }
+  footer a { color: var(--accent-blue); text-decoration: none; }
+</style>
+
+<div class="container">
+  <span class="eyebrow">Montage Design System</span>
+  <h1>이서연</h1>
+  <p class="lede">
+    안녕하세요, 저는 이서연입니다. 새로운 것을 배우고 도전하는 것을 좋아합니다.
+    앞으로 잘 부탁드립니다.
+  </p>
+
+  <table>
+    <tr>
+      <th>항목</th>
+      <th>설명</th>
+    </tr>
+    <tr>
+      <td>좋아하는 것</td>
+      <td>커피, 산책</td>
+    </tr>
+    <tr>
+      <td>요즘 배우는 것</td>
+      <td>파이썬과 웹 개발</td>
+    </tr>
+    <tr>
+      <td>오늘 목표</td>
+      <td>실거래가 데이터 정리하기</td>
+    </tr>
+  </table>
+
+  <h2>[강남구] 아파트 실거래 살펴보기</h2>
+  <p class="section-desc">2026년 상반기 실거래가 데이터를 기준으로 정리했습니다.</p>
+
+  <div class="card">
+    <p>강남구 거래 건수 및 평균 물건금액</p>
+  </div>
+
+  <div class="stat-row">
+    <div class="stat">
+      <div class="stat-label">거래 건수</div>
+      <div class="stat-value">2,933건</div>
+    </div>
+    <div class="stat">
+      <div class="stat-label">평균 물건금액</div>
+      <div class="stat-value accent">약 28억 원</div>
+    </div>
+  </div>
+
+  <table>
+    <tr>
+      <th>건물명</th>
+      <th>물건금액(만원)</th>
+      <th>계약일</th>
+    </tr>
+    <tr>
+      <td><span class="rank">1</span>에테르노청담</td>
+      <td>2,180,000</td>
+      <td>2026-05-15</td>
+    </tr>
+    <tr>
+      <td><span class="rank">2</span>PH129</td>
+      <td>1,900,000</td>
+      <td>2025-07-01</td>
+    </tr>
+    <tr>
+      <td><span class="rank">3</span>PH129</td>
+      <td>1,550,000</td>
+      <td>2025-12-12</td>
+    </tr>
+    <tr>
+      <td><span class="rank">4</span>현대1차(12,13,21,22,31,32,33동)</td>
+      <td>1,305,000</td>
+      <td>2025-08-18</td>
+    </tr>
+    <tr>
+      <td><span class="rank">5</span>신현대11차</td>
+      <td>1,280,000</td>
+      <td>2025-12-24</td>
+    </tr>
+  </table>
+
+  <footer>
+    색상·타이포그래피 토큰 출처: <a href="https://montage.wanted.co.kr" target="_blank" rel="noopener">Montage — Wanted Design System</a>
+  </footer>
+</div>
