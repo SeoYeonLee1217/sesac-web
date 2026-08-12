@@ -58,6 +58,20 @@
   </section>
 
   <section>
+    <div class="section-title-row">
+      <h2 class="section-title">동별 시세 지도</h2>
+      <span class="map-note">* 실제 좌표가 아닌 위치를 단순화한 개념도입니다. 원의 크기는 평균 매매가, 색은 자치구를 나타냅니다.</span>
+    </div>
+    <div class="card">
+      <div class="map-wrap">
+        <svg id="dongMap" viewBox="0 0 800 420" role="img" aria-label="강남3구 동별 평균가 개념도"></svg>
+        <div class="dong-tooltip" id="dongTooltip"></div>
+      </div>
+      <p class="map-hint" id="mapHint">동을 클릭하면 아래 테이블에서 해당 동의 거래만 검색됩니다.</p>
+    </div>
+  </section>
+
+  <section>
     <h2 class="section-title">실거래 랭킹 / 검색</h2>
     <div class="table-header-row">
       <span class="table-count" id="tableCount"></span>

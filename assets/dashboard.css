@@ -199,6 +199,81 @@ section:last-of-type { padding-bottom: 48px; }
   color: var(--text-primary);
 }
 
+/* ---- Dong map ---- */
+.section-title-row {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 16px;
+  flex-wrap: wrap;
+}
+.section-title-row .section-title { margin: 0; }
+.map-note {
+  font-size: 12px;
+  color: var(--text-tertiary);
+}
+#dongMap {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+.map-hint {
+  font-size: 12px;
+  color: var(--text-tertiary);
+  margin: 12px 0 0;
+  text-align: center;
+}
+.dong-region-label {
+  font: 600 13px var(--font);
+  fill: var(--text-tertiary);
+}
+.dong-node circle {
+  transition: r 0.15s ease, opacity 0.25s ease, transform 0.3s ease;
+  cursor: pointer;
+  transform-origin: center;
+  transform-box: fill-box;
+}
+.dong-node text {
+  font: 500 10px var(--font);
+  fill: var(--text-secondary);
+  pointer-events: none;
+  transition: opacity 0.25s ease;
+}
+.dong-node.inactive circle,
+.dong-node.inactive text {
+  opacity: 0;
+  pointer-events: none;
+}
+.dong-node:hover circle {
+  transform: scale(1.18);
+  filter: brightness(0.92);
+}
+.dong-node.pulse circle {
+  animation: dongPulse 0.6s ease-out;
+}
+@keyframes dongPulse {
+  0% { transform: scale(0.4); opacity: 0; }
+  60% { transform: scale(1.15); opacity: 1; }
+  100% { transform: scale(1); opacity: 1; }
+}
+.dong-tooltip {
+  position: absolute;
+  pointer-events: none;
+  background: #0f172a;
+  color: #fff;
+  font-size: 12px;
+  padding: 6px 10px;
+  border-radius: 6px;
+  white-space: nowrap;
+  transform: translate(-50%, -130%);
+  opacity: 0;
+  transition: opacity 0.12s ease;
+  z-index: 20;
+}
+.dong-tooltip.visible { opacity: 1; }
+.map-wrap { position: relative; }
+
 /* ---- Table ---- */
 .table-header-row {
   display: flex;

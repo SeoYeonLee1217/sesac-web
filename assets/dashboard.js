@@ -4,6 +4,26 @@
   const GU_COLORS = ["#2563eb", "#059669", "#ea580c"];
   const PAGE_SIZE = 50;
 
+  // 실제 좌표가 아닌, 강남/서초/송파 상대 위치를 단순화한 개념도용 좌표 (viewBox 0 0 800 420)
+  const DONG_COORDS = {
+    // 서초구 (서쪽)
+    "잠원동": [300, 90], "반포동": [270, 120], "서초동": [300, 165],
+    "방배동": [240, 175], "양재동": [330, 225], "우면동": [270, 245],
+    "신원동": [250, 295], "내곡동": [300, 285],
+    // 강남구 (중앙)
+    "압구정동": [400, 75], "신사동": [370, 95], "청담동": [450, 80],
+    "논현동": [390, 125], "삼성동": [490, 115], "역삼동": [430, 155],
+    "대치동": [470, 175], "도곡동": [430, 205], "개포동": [420, 245],
+    "일원동": [470, 265], "수서동": [500, 285], "율현동": [480, 315],
+    "자곡동": [460, 305], "세곡동": [430, 325],
+    // 송파구 (동쪽)
+    "잠실동": [570, 100], "신천동": [540, 120], "삼전동": [520, 140],
+    "풍납동": [620, 130], "석촌동": [545, 160], "송파동": [575, 160],
+    "방이동": [610, 180], "가락동": [580, 200], "문정동": [560, 230],
+    "장지동": [550, 275], "오금동": [570, 260], "거여동": [610, 265],
+    "마천동": [630, 285],
+  };
+
   const state = {
     summary: null,
     deals: null, // {fields, gu_list, rows}
@@ -43,6 +63,7 @@
       renderKpi();
       renderCompareCharts();
       renderTrendChart();
+      renderDongMap();
     } catch (err) {
       showFatalError();
       return;
@@ -101,6 +122,7 @@
     renderKpi();
     renderCompareCharts();
     renderTrendChart();
+    renderDongMap();
     renderTable();
   }
 
@@ -245,6 +267,96 @@
         },
       },
     });
+  }
+
+  let mapRendered = false;
+  function renderDongMap() {
+    const svg = $("#dongMap");
+    const tooltip = $("#dongTooltip");
+    const byDong = state.summary.by_dong;
+    const names = Object.keys(byDong).filter((n) => DONG_COORDS[n]);
+
+    const prices = names.map((n) => byDong[n].avg_price);
+    const minP = Math.min(...prices), maxP = Math.max(...prices);
+    const radiusFor = (p) => {
+      if (maxP === minP) return 16;
+      return 9 + ((p - minP) / (maxP - minP)) * 18;
+    };
+
+    if (!mapRendered) {
+      const ns = "http://www.w3.org/2000/svg";
+      const labels = [
+        { text: "서초구", x: 275, y: 40 },
+        { text: "강남구", x: 450, y: 30 },
+        { text: "송파구", x: 590, y: 60 },
+      ];
+      labels.forEach((l) => {
+        const t = document.createElementNS(ns, "text");
+        t.setAttribute("x", l.x);
+        t.setAttribute("y", l.y);
+        t.setAttribute("class", "dong-region-label");
+        t.textContent = l.text;
+        svg.appendChild(t);
+      });
+
+      names.forEach((name) => {
+        const [x, y] = DONG_COORDS[name];
+        const g = document.createElementNS(ns, "g");
+        g.setAttribute("class", "dong-node pulse");
+        g.dataset.dong = name;
+
+        const circle = document.createElementNS(ns, "circle");
+        circle.setAttribute("cx", x);
+        circle.setAttribute("cy", y);
+        circle.setAttribute("fill", GU_COLORS[byDong[name].gu]);
+        circle.setAttribute("fill-opacity", "0.82");
+
+        const label = document.createElementNS(ns, "text");
+        label.setAttribute("x", x);
+        label.setAttribute("y", y + radiusFor(byDong[name].avg_price) + 12);
+        label.setAttribute("text-anchor", "middle");
+        label.textContent = name;
+
+        g.appendChild(circle);
+        g.appendChild(label);
+        svg.appendChild(g);
+
+        g.addEventListener("mouseenter", (e) => showDongTooltip(name, e));
+        g.addEventListener("mousemove", (e) => showDongTooltip(name, e));
+        g.addEventListener("mouseleave", hideDongTooltip);
+        g.addEventListener("click", () => {
+          $("#searchInput").value = name;
+          $("#searchClear").classList.add("visible");
+          state.query = name;
+          state.visibleCount = PAGE_SIZE;
+          renderTable();
+          document.querySelector(".deals-table").scrollIntoView({ behavior: "smooth", block: "start" });
+        });
+      });
+      mapRendered = true;
+    }
+
+    document.querySelectorAll(".dong-node").forEach((g) => {
+      const name = g.dataset.dong;
+      const d = byDong[name];
+      const active = state.activeGu.has(d.gu);
+      g.classList.toggle("inactive", !active);
+      const r = radiusFor(d.avg_price);
+      g.querySelector("circle").setAttribute("r", r);
+    });
+
+    function showDongTooltip(name, evt) {
+      const d = byDong[name];
+      const guName = state.summary.meta.gu_list[d.gu];
+      tooltip.textContent = `${guName} ${name} · 평균 ${formatEok(d.avg_price)} · ${d.count}건`;
+      const wrapRect = svg.parentElement.getBoundingClientRect();
+      tooltip.style.left = evt.clientX - wrapRect.left + "px";
+      tooltip.style.top = evt.clientY - wrapRect.top + "px";
+      tooltip.classList.add("visible");
+    }
+    function hideDongTooltip() {
+      tooltip.classList.remove("visible");
+    }
   }
 
   function getFilteredSortedRows() {

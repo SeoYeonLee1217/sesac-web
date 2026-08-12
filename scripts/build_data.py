@@ -80,7 +80,26 @@ def build_summary(rows):
             "source": "국토교통부 아파트 실거래가 (매매)",
         },
         "by_gu": by_gu,
+        "by_dong": build_by_dong(rows),
     }
+
+
+def build_by_dong(rows):
+    groups = {}
+    for r in rows:
+        key = r["n"]
+        g = groups.setdefault(key, {"gu": r["g"], "count": 0, "sum_price": 0})
+        g["count"] += 1
+        g["sum_price"] += r["p"]
+
+    by_dong = {}
+    for name, g in groups.items():
+        by_dong[name] = {
+            "gu": g["gu"],
+            "count": g["count"],
+            "avg_price": round(g["sum_price"] / g["count"]),
+        }
+    return by_dong
 
 
 def build_deals(rows):
